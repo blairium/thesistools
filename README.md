@@ -11,6 +11,7 @@ Building this package with [uv](https://docs.astral.sh/uv/getting-started/instal
 Clone reop with
 
 `git clone https://github.com/blairium/thesistools.git
+
 cd thesistools`
 
 Run the command
