@@ -1,10 +1,10 @@
 [project]
 name = "thesistools"
-version = "0.1.1"
+version = "0.1.2"
 description = "Tools for my thesis"
 readme = "README.md"
 authors = [{ name = "Blair Haydon", email = "b.haydon@latrobe.edu.au" }]
-requires-python = ">=3.12.9"
+requires-python = ">=3.7"
 dependencies = ["numpy>=2", "matplotlib >=3"]
 
 [build-system]

@@ -4,8 +4,10 @@ A collection of plotting tools for the Latex Thesis template
 Author: Blair Haydon 2025
 """
 
+from __future__ import annotations
 from string import ascii_lowercase
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class panel_labeller:
@@ -28,7 +30,9 @@ class panel_labeller:
         return label
 
 
-def add_subfig_label(ax, label:str,facecolor="0.7",edgecolor="none", alpha=0.5,*args, **kwargs):
+def add_subfig_label(
+    ax, label: str, facecolor="0.7", edgecolor="none", alpha=0.5, *args, **kwargs
+):
     """
     Add a label to a subfigure.
 
@@ -46,11 +50,18 @@ def add_subfig_label(ax, label:str,facecolor="0.7",edgecolor="none", alpha=0.5,*
         fontsize="medium",
         verticalalignment="top",
         fontfamily="serif",
-        bbox=dict(facecolor=facecolor, edgecolor=edgecolor, pad=3.0, alpha=alpha,*args, **kwargs),
+        bbox=dict(
+            facecolor=facecolor,
+            edgecolor=edgecolor,
+            pad=3.0,
+            alpha=alpha,
+            *args,
+            **kwargs,
+        ),
     )
 
 
-def set_size(aspect:[float | str]="wide"):
+def set_size(aspect: [float | str] = "wide"):
     """Set figure dimensions to avoid scaling in LaTeX.
 
     Parameters
@@ -83,7 +94,6 @@ def set_size(aspect:[float | str]="wide"):
 
 
 def dose(termination: str = "Oxygen") -> np.ndarray:
-
     DOSE_PER_SECOND = 21.741378420061995  # mJ/s/cm2
     if termination == "Oxygen":
         exposures = np.concatenate(  # Explosure duration in seconds from beamtime excel datasheet
@@ -102,3 +112,21 @@ def dose(termination: str = "Oxygen") -> np.ndarray:
     ):  # Update array positions with cumulative dose at said point
         dose[i] = (j * DOSE_PER_SECOND) + np.sum(dose)
     return np.array(dose)
+
+
+if __name__ == "__main__":
+    x = np.linspace(0, 2 * np.pi, 50)
+
+    ys = {"Sin(x)": np.sin(x), "Cos(x)": np.cos(x)}
+    fig, axes = plt.subplots(1, 2)
+
+    labeler = panel_labeller()
+
+    for ax, (key, y) in zip(axes.flatten(), ys.items()):
+        ax.plot(x, y)
+        ax.set_title(key)
+        ax.set_xlabel("x")
+        ax.set_ylabel(key)
+        add_subfig_label(ax, labeler.next())
+    plt.tight_layout()
+    plt.show()
