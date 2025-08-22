@@ -1,11 +1,11 @@
 [project]
 name = "thesistools"
-version = "0.1.2"
+version = "0.2.1"
 description = "Tools for my thesis"
 readme = "README.md"
 authors = [{ name = "Blair Haydon", email = "b.haydon@latrobe.edu.au" }]
 requires-python = ">=3.7"
-dependencies = ["numpy>=2", "matplotlib >=3"]
+dependencies = ["numpy>=1.5", "matplotlib >=2.5"]
 
 [build-system]
 requires = ["hatchling"]

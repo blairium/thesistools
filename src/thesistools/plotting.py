@@ -8,18 +8,22 @@ from __future__ import annotations
 from string import ascii_lowercase
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+from dataclasses import dataclass
+
+plt.style.use("thesis")
 
 
+@dataclass
 class panel_labeller:
     """
     Class for generating sequential labels for plot panels.
     """
 
-    def __init__(self, sequence=ascii_lowercase):
-        self.sequence = sequence
-        self._label_index = 0
+    sequence: str = ascii_lowercase
+    _label_index: int = 0
 
-    def next(self):
+    def next(self) -> str:
         """
         Get the next label in the sequence.
         Returns:
@@ -31,7 +35,15 @@ class panel_labeller:
 
 
 def add_subfig_label(
-    ax, label: str, facecolor="0.7", edgecolor="none", alpha=0.5, *args, **kwargs
+    ax,
+    label: str,
+    facecolor: str="0.7",
+    edgecolor: str="none",
+    alpha: float=0.5,
+    align: str="left",
+    brackets:bool=True,
+    *args,
+    **kwargs,
 ):
     """
     Add a label to a subfigure.
@@ -41,11 +53,13 @@ def add_subfig_label(
         label (str): The label text.
         description (str, optional): Additional description text.
     """
+    ax.set_ybound(upper=ax.get_ybound()[1] * 1.05)
     ax.annotate(
-        f"{label})",
-        xy=(0, 1),
+        f"({label})" if brackets else f"{label}",
+        xy=(0 if align == "left" else 1, 1),
         xycoords="axes fraction",
-        xytext=(+0.5, -0.5),
+        xytext=(+0.5 if align == "left" else -.5, -0.5),
+        horizontalalignment = align,
         textcoords="offset fontsize",
         fontsize="medium",
         verticalalignment="top",
@@ -61,7 +75,7 @@ def add_subfig_label(
     )
 
 
-def set_size(aspect: [float | str] = "wide"):
+def set_size(aspect: float | str = "wide"):
     """Set figure dimensions to avoid scaling in LaTeX.
 
     Parameters
@@ -93,25 +107,71 @@ def set_size(aspect: [float | str] = "wide"):
     return fig_dim
 
 
-def dose(termination: str = "Oxygen") -> np.ndarray:
-    DOSE_PER_SECOND = 21.741378420061995  # mJ/s/cm2
-    if termination == "Oxygen":
-        exposures = np.concatenate(  # Explosure duration in seconds from beamtime excel datasheet
-            (
-                np.zeros(1),
-                np.ones(2) * 221,
-                np.ones(2) * 442,
-                np.ones(2) * 884,
-                np.ones(1) * 1768,
-            )
-        )
+def get_colour(key):
+    colour_dict = {
+        "CPS": "k",
+        "Rec": "#332288",
+        "Bulk": "#DDCC77",
+        "B*": "#882255",
+        "Envelope": "#CC6677",
+        "Background": "#DDDDDD",
+        "CH": "#984ea3",
+        "OH": "#999933",
+        "Carbonyl": "#882255",
+        "Ether": "#225522",
+        "DB": "#BB5566",
+        "Dimer": "#332288",
+        "D2": "#6A5CB1",
+        "Pandey Chain": "#332288",
+    }
+    if key in colour_dict:
+        return colour_dict[key]
+    else:
+        return "#555555"
 
-    dose = np.zeros(len(exposures))  # Array for each exposure
-    for i, j in enumerate(
-        exposures
-    ):  # Update array positions with cumulative dose at said point
-        dose[i] = (j * DOSE_PER_SECOND) + np.sum(dose)
-    return np.array(dose)
+
+def offset(myFig, myAx, n=1, yOff=60):
+    dx, dy = 0.0, yOff / myFig.dpi
+    return myAx.transData + mpl.transforms.ScaledTranslation(
+        dx, n * dy, myFig.dpi_scale_trans
+    )
+
+
+def presentation_size(
+    size: str, SMALL_SIZE: int = 24, MEDIUM_SIZE: int = 32, BIGGER_SIZE: int = 40
+):
+    golden_mean = (np.sqrt(5) - 1.0) / 2.0  # Aesthetic ratio\n",
+
+    widths = {
+        "A0": 46.8,
+        "A1": 33.1,
+        "A2": 23.4,
+        "A3": 16.5,
+        "A4": 11.7,
+        "A5": 8.3,
+        "POWERPOINT": 6.667,
+    }
+    fig_width = widths[size.upper()]
+    fig_height = fig_width * golden_mean  # height in inches\n",
+    fig_size = [fig_width, fig_height]
+
+    # plt.rcParams["image.cmap"]  = cm.batlow
+    plt.rc("font", size=MEDIUM_SIZE)  # controls default text sizes\n",
+    plt.rc("axes", titlesize=MEDIUM_SIZE)  # fontsize of the axes title\n",
+    plt.rc("axes", labelsize=MEDIUM_SIZE)  # fontsize of the x and y labels\n",
+    plt.rc("xtick", labelsize=SMALL_SIZE)  # fontsize of the tick labels\n",
+    plt.rc("ytick", labelsize=SMALL_SIZE)  # fontsize of the tick labels\n",
+    plt.rc("legend", fontsize=SMALL_SIZE)  # legend fontsize\n",
+    plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title\n",
+    plt.rcParams.update(
+        {
+            "text.usetex": True,
+            "font.family": "serif",
+            "font.sans-serif": "Palatino",
+        }
+    )
+    plt.rcParams["figure.figsize"] = fig_size
+    plt.rcParams["figure.dpi"] = 200
 
 
 if __name__ == "__main__":
@@ -127,6 +187,6 @@ if __name__ == "__main__":
         ax.set_title(key)
         ax.set_xlabel("x")
         ax.set_ylabel(key)
-        add_subfig_label(ax, labeler.next())
+        add_subfig_label(ax, labeler.next(), align="right")
     plt.tight_layout()
     plt.show()

@@ -1,6 +1,6 @@
 import os  # pathlib.Path.walk not available in Python <3.12
 import matplotlib.pyplot as plt
-
+from .plotting import *
 
 style = plt.style.core.read_style_directory(os.getcwd())
 
