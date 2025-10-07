@@ -11,8 +11,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from dataclasses import dataclass
 
-plt.style.use("thesis")
-
 
 @dataclass
 class panel_labeller:
@@ -37,11 +35,11 @@ class panel_labeller:
 def add_subfig_label(
     ax,
     label: str,
-    facecolor: str="0.7",
-    edgecolor: str="none",
-    alpha: float=0.5,
-    align: str="left",
-    brackets:bool=True,
+    facecolor: str = "0.7",
+    edgecolor: str = "none",
+    alpha: float = 0.5,
+    align: str = "left",
+    brackets: bool = True,
     *args,
     **kwargs,
 ):
@@ -58,8 +56,8 @@ def add_subfig_label(
         f"({label})" if brackets else f"{label}",
         xy=(0 if align == "left" else 1, 1),
         xycoords="axes fraction",
-        xytext=(+0.5 if align == "left" else -.5, -0.5),
-        horizontalalignment = align,
+        xytext=(+0.5 if align == "left" else -0.5, -0.5),
+        horizontalalignment=align,
         textcoords="offset fontsize",
         fontsize="medium",
         verticalalignment="top",
