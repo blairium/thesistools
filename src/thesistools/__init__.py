@@ -1,7 +1,7 @@
 import os  # pathlib.Path.walk not available in Python <3.12
 import matplotlib.pyplot as plt
 import thesistools
-from scienceplots import read_styles_in_folders
+from .styles_discovery import read_styles_in_folders
 
 
 
