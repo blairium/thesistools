@@ -6,6 +6,7 @@ Author: Blair Haydon 2025
 
 from __future__ import annotations
 from string import ascii_lowercase
+from typing import Literal
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -136,8 +137,24 @@ def offset(myFig, myAx, n=1, yOff=60):
 
 
 def presentation_size(
-    size: str, SMALL_SIZE: int = 24, MEDIUM_SIZE: int = 32, BIGGER_SIZE: int = 40
+    size: Literal["A0", "A1", "A2", "A4", "A5", "POWERPOINT"],
+    SMALL_SIZE: int = 24,
+    MEDIUM_SIZE: int = 32,
+    BIGGER_SIZE: int = 40,
 ):
+    """presentation_size _summary_
+
+    Parameters
+    ----------
+    size : Literal[&quot;A0&quot;, &quot;A1&quot;, &quot;A2&quot;, &quot;A4&quot;, &quot;A5&quot;, &quot;POWERPOINT&quot;]
+        _description_
+    SMALL_SIZE : int, optional
+        _description_, by default 24
+    MEDIUM_SIZE : int, optional
+        _description_, by default 32
+    BIGGER_SIZE : int, optional
+        _description_, by default 40
+    """
     golden_mean = (np.sqrt(5) - 1.0) / 2.0  # Aesthetic ratio\n",
 
     widths = {
@@ -173,6 +190,7 @@ def presentation_size(
 
 
 if __name__ == "__main__":
+    presentation_size("A0")
     x = np.linspace(0, 2 * np.pi, 50)
 
     ys = {"Sin(x)": np.sin(x), "Cos(x)": np.cos(x)}
