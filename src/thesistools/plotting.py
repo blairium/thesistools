@@ -141,6 +141,7 @@ def presentation_size(
     SMALL_SIZE: int = 24,
     MEDIUM_SIZE: int = 32,
     BIGGER_SIZE: int = 40,
+    LINE_WIDTH: float = 2,
 ):
     """presentation_size _summary_
 
@@ -178,6 +179,7 @@ def presentation_size(
     plt.rc("ytick", labelsize=SMALL_SIZE)  # fontsize of the tick labels\n",
     plt.rc("legend", fontsize=SMALL_SIZE)  # legend fontsize\n",
     plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title\n",
+    plt.rc("lines", linewidth=LINE_WIDTH)
     plt.rcParams.update(
         {
             "text.usetex": True,
