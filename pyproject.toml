@@ -1,6 +1,6 @@
 [project]
 name = "thesistools"
-version = "0.2.5"
+version = "0.2.6"
 description = "Tools for my thesis"
 readme = "README.md"
 authors = [{ name = "Blair Haydon", email = "b.haydon@latrobe.edu.au" }]
