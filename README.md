@@ -5,23 +5,12 @@
 - Adds installation of custom matplotlib style sheet
 
 ## Installation
-Building this package with [uv](https://docs.astral.sh/uv/getting-started/installation/) package manager is recommended.
-
-
-Clone reop with
 
 ```
-git clone https://github.com/blairium/thesistools.git
+pip install git+https://github.com/blairium/thesistools.git
 
-cd thesistools
 ```
-Run the command
 
-`uv build`
-
-Then
-
-`pip install .\dist\thesistools-0.1.1-py3-none-any.whl`
 
 ## Usage
 
